@@ -1,6 +1,9 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <string>
+#include <cstdlib>
+
 using namespace std;
 
 
@@ -86,12 +89,73 @@ ostream& operator<<(ostream& stream, const Rational& rational){
     return stream;
 }
 
-istream& operator>>(istream& stream, Rational& rational){
+
+// int getNum(const string& ss){
+//     int r=0;
+//     for (const char& i : ss){
+//         r *= 10;
+//         r+=(int)i - 48;
+//     }
+//     return r;
+// }
+
+// int not_valid(const string& ss){
+//     int stage = 0;
+//     if (ss == ""){
+//         return 1;
+//     }
+//     for(const char& i : ss){
+//         if ((int) i < 48 || (int)i > 57){
+//             if (stage != 1){
+//                 return 2;
+//             }
+//             if (i != '/'){
+//                 return 3;
+//             } else {
+//                 stage++;
+//             }
+//         } else {
+//             if (stage == 0){
+//                 stage++;
+//             } else if (stage == 2){
+//                 stage++;
+//             }
+//         }
+//     }
+//     if (stage == 3){
+//         return 0;
+//     } else {
+//         return 4;
+//     }
+// }
+
+istream& operator>> (istream& stream, Rational& rational){
     int tmp_p, tmp_q;
-    stream >> tmp_p;
+    // cout << "\n1peek() " << stream.peek() << "   " << (char)stream.peek() << endl;
+    stream.peek();
+    if((stream.peek() > 47) && (stream.peek() < 58)){ 
+        stream >> tmp_p;
+    } else {
+        return stream;
+    };
+
+    // cout << "2peek() " << stream.peek() << "   " << (char)stream.peek() << endl;  
+    if (stream.peek() != 47){
+        return stream;
+    };
     stream.ignore(1);
-    stream >> tmp_q;
+    // cout << "3peek() " << stream.peek() << "   " << (char)stream.peek() << endl << endl;
+    if((stream.peek() > 47) && (stream.peek() < 58)){ 
+        stream >> tmp_q;
+    } else {
+        return stream;
+    };
+
+    if (stream.peek() == 32){
+        stream.ignore(1);
+    }
     rational = {tmp_p, tmp_q};
+
     return stream;
 }
 
@@ -160,7 +224,7 @@ int main() {
             return 5;
         }
     }
-
+    // cout <<"\nLAST TEST\n\n";
     {
         istringstream input1("1*2"), input2("1/"), input3("/4");
         Rational r1, r2, r3;

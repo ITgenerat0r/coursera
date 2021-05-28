@@ -6,14 +6,14 @@ using namespace std;
 
 int NOD (int a, int b)
 {
-    while (a != b)
-    {
-        if (a > b)
-            a %= b;
-        else
-            b %= a;
+    while (a > 0 && b > 0) {
+        if (a > b) {
+          a %= b;
+        } else {
+          b %= a;
+        }
     }
-    return a;
+    return a+b;
 }
 
 
@@ -66,9 +66,10 @@ private:
 
 
 Rational operator+ (const Rational& lhs, const Rational& rhs){
-    int tmp_p, tmp_q;
-    tmp_p = lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator();
-    tmp_q = lhs.Denominator() * rhs.Denominator();
+    // int tmp_p, tmp_q;
+    // tmp_p = lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator();
+    // tmp_q = lhs.Denominator() * rhs.Denominator();
+    // return Rational(tmp_p, tmp_q);
     return Rational(tmp_p, tmp_q);
 }
 
@@ -92,14 +93,38 @@ bool operator== (const Rational& lhs, const Rational& rhs){
 // Комментарии, которые говорят, что именно нужно реализовать в этой программе
 
 int main() {
-    // Набор юнит-тестов для вашей реализации
-    // int v1, v2;
-    // cin >> v1 >> v2;
-    const Rational r = Rational(1, 2) + Rational(1, 3) - Rational(1, 4);
-    if (r == Rational(7, 12)) {
-      cout << "equal";
+    {
+        Rational r1(4, 6);
+        Rational r2(2, 3);
+        bool equal = r1 == r2;
+        if (!equal) {
+            cout << "4/6 != 2/3" << endl;
+            return 1;
+        }
     }
-    cout << endl;
+
+    {
+        Rational a(2, 3);
+        Rational b(4, 3);
+        Rational c = a + b;
+        bool equal = c == Rational(2, 1);
+        if (!equal) {
+            cout << "2/3 + 4/3 != 2" << endl;
+            return 2;
+        }
+    }
+
+    {
+        Rational a(5, 7);
+        Rational b(2, 9);
+        Rational c = a - b;
+        bool equal = c == Rational(31, 63);
+        if (!equal) {
+            cout << "5/7 - 2/9 != 31/63" << endl;
+            return 3;
+        }
+    }
+
     cout << "OK" << endl;
     return 0;
 }
