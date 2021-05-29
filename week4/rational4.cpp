@@ -1,10 +1,25 @@
 #include <iostream>
 #include <sstream>
-#include <algorithm>
+// #include <algorithm>
 #include <string>
-#include <cstdlib>
+// #include <cstdlib>
+#include <numeric>
 
 using namespace std;
+
+
+int NOD (int a, int b)
+{
+    while (a > 0 && b > 0) {
+        if (a > b) {
+          a %= b;
+        } else {
+          b %= a;
+        }
+    }
+    return a+b;
+}
+
 
 
 class Rational {
@@ -35,7 +50,10 @@ public:
     if (p == 0){
         q = 1;
     } else {
-        int tmp = abs(__gcd(p, q));
+        int tmp = gcd(p, q);
+        if(tmp < 0){
+            tmp *= -1;
+        }
         p /= tmp;
         q /= tmp;
     }
@@ -49,18 +67,22 @@ private:
 
 
 
-Rational operator+ (const Rational& lhs, const Rational& rhs){
-    int tmp_p, tmp_q;
-    tmp_p = lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator();
-    tmp_q = lhs.Denominator() * rhs.Denominator();
-    return Rational(tmp_p, tmp_q);
+// Rational operator+ (const Rational& lhs, const Rational& rhs){
+//     return {lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator(),
+//              lhs.Denominator() * rhs.Denominator()};
+// }
+
+Rational operator+(const Rational& r1, const Rational& r2) {
+    int n = r1.Numerator() * r2.Denominator() +
+        r2.Numerator() * r1.Denominator();
+    int d = r1.Denominator() * r2.Denominator();
+    return { n, d };
 }
 
+
 Rational operator- (const Rational& lhs, const Rational& rhs){
-    int tmp_p, tmp_q;
-    tmp_p = lhs.Numerator() * rhs.Denominator() - rhs.Numerator() * lhs.Denominator();
-    tmp_q = lhs.Denominator() * rhs.Denominator();
-    return Rational(tmp_p, tmp_q);
+    return {lhs.Numerator() * rhs.Denominator() - rhs.Numerator() * lhs.Denominator(),
+             lhs.Denominator() * rhs.Denominator()};
 }
 
 bool operator== (const Rational& lhs, const Rational& rhs){
@@ -71,17 +93,11 @@ bool operator== (const Rational& lhs, const Rational& rhs){
 }
 
 Rational operator* (const Rational& lhs, const Rational& rhs){
-    int tmp_p, tmp_q;
-    tmp_p = lhs.Numerator() * rhs.Numerator();
-    tmp_q = lhs.Denominator() * rhs.Denominator();
-    return Rational(tmp_p, tmp_q);
+    return {lhs.Numerator() * rhs.Numerator(), lhs.Denominator() * rhs.Denominator()};
 }
 
 Rational operator/ (const Rational& lhs, const Rational& rhs){
-    int tmp_p, tmp_q;
-    tmp_p = lhs.Numerator() * rhs.Denominator();
-    tmp_q = lhs.Denominator() * rhs.Numerator();
-    return Rational(tmp_p, tmp_q);
+    return {lhs.Numerator() * rhs.Denominator(), lhs.Denominator() * rhs.Numerator()};
 }
 
 ostream& operator<<(ostream& stream, const Rational& rational){
@@ -129,11 +145,12 @@ ostream& operator<<(ostream& stream, const Rational& rational){
 //     }
 // }
 
+
 istream& operator>> (istream& stream, Rational& rational){
     int tmp_p, tmp_q;
     // cout << "\n1peek() " << stream.peek() << "   " << (char)stream.peek() << endl;
-    stream.peek();
-    if((stream.peek() > 47) && (stream.peek() < 58)){ 
+    // stream.peek();
+    if((stream.peek() > 47) && (stream.peek() < 58) || (stream.peek() == 45)){ 
         stream >> tmp_p;
     } else {
         return stream;
@@ -167,13 +184,25 @@ istream& operator>> (istream& stream, Rational& rational){
 //     // Набор юнит-тестов для вашей реализации
 //     // int v1, v2;
 //     // cin >> v1 >> v2;
-//     Rational r;
+//     Rational r(1, 3);
 //     cin >> r;
 //     cout << r;
 //     cout << endl;
 //     cout << "OK" << endl;
 //     return 0;
 // }
+
+
+// int main(){
+//     //
+//     Rational r;
+//     while (cin >> r) {
+//         cout << r;
+//         cin.clear();
+//     }
+// }
+
+
 
 int main() {
     {
