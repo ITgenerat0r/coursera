@@ -150,6 +150,9 @@ istream& operator>> (istream& stream, Rational& rational){
     int tmp_p, tmp_q;
     // cout << "\n1peek() " << stream.peek() << "   " << (char)stream.peek() << endl;
     // stream.peek();
+    while(stream.peek() == 32){
+        stream.ignore(1);
+    }
     if((stream.peek() > 47) && (stream.peek() < 58) || (stream.peek() == 45)){ 
         stream >> tmp_p;
     } else {
@@ -158,23 +161,25 @@ istream& operator>> (istream& stream, Rational& rational){
 
     // cout << "2peek() " << stream.peek() << "   " << (char)stream.peek() << endl;  
     if (stream.peek() != 47){
+        stream.ignore(1);
         return stream;
     };
     stream.ignore(1);
     // cout << "3peek() " << stream.peek() << "   " << (char)stream.peek() << endl << endl;
-    if((stream.peek() > 47) && (stream.peek() < 58)){ 
+    if((stream.peek() > 47) && (stream.peek() < 58)  || (stream.peek() == 45)){ 
         stream >> tmp_q;
     } else {
         return stream;
     };
 
-    if (stream.peek() == 32){
-        stream.ignore(1);
-    }
+    // if (stream.peek() == 32){
+    //     stream.ignore(1);
+    // }
     rational = {tmp_p, tmp_q};
-
+    // stream.clear();
     return stream;
 }
+
 
 
 
@@ -195,10 +200,13 @@ istream& operator>> (istream& stream, Rational& rational){
 
 // int main(){
 //     //
-//     Rational r;
-//     while (cin >> r) {
-//         cout << r;
-//         cin.clear();
+//     // Rational r;
+//     int g;
+//     for(int i = 0; i < 10; i++){
+//         // cin >> r;
+//         // cout << i << "   " << r << endl;
+//         cin >> g;
+//         cout << i << " " << g << endl;
 //     }
 // }
 
@@ -270,5 +278,15 @@ int main() {
     }
 
     cout << "OK" << endl;
+
+
+    Rational r;
+    int g;
+    for(int i = 0; i < 10; i++){
+        cin >> r;
+        cout << i << "   " << r << endl;
+        // cin >> g;
+        // cout << i << " " << g << endl;
+    }
     return 0;
 }
