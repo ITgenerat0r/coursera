@@ -59,7 +59,7 @@ public:
 		return m.size();
 	};
 
-	int GetNumCols() const {
+	int GetNumColumns() const {
 		return m[0].size();
 	};
 
@@ -72,10 +72,10 @@ private:
 };
 
 
-ostream& operator<<(ostream& stream, const Matrix& matrix){
+ostream& operator<<(ostream& stream, Matrix& matrix){
 	int r, c;
 	r = matrix.GetNumRows();
-	c = matrix.GetNumCols();
+	c = matrix.GetNumColumns();
 	stream << r << " " << c << endl;
 	if (r == 0 || c == 0){
 		return stream;
@@ -96,22 +96,20 @@ istream& operator>>(istream& stream, Matrix& matrix){
 	if (r == 0 || c == 0){
 		return stream;
 	}
-	int tmp = c;
-	while(r--) {
-		c = tmp;
-	    while(c--) {
-	        stream >> matrix.At(r, c);
+	for(int i = 0; i < r; i++) {
+		for(int j = 0; j < c; j++) {
+	        stream >> matrix.At(i, j);
 	    }
 	}
 	return stream;
 }
 
 bool operator==(Matrix& ml, Matrix& mr){
-	if(ml.GetNumCols() != mr.GetNumCols()){return false;}
+	if(ml.GetNumColumns() != mr.GetNumColumns()){return false;}
 	if(ml.GetNumRows() != mr.GetNumRows()){return false;}
-	if (ml.GetNumCols() != 0 && ml.GetNumRows() != 0){
+	if (ml.GetNumColumns() != 0 && ml.GetNumRows() != 0){
 		for(int i=0; i<ml.GetNumRows(); i++) {
-		    for(int j=0; j<ml.GetNumCols(); j++) {
+		    for(int j=0; j<ml.GetNumColumns(); j++) {
 		        if(ml.At(i, j) != mr.At(i, j)){
 		        	return false;
 		        }
@@ -121,32 +119,40 @@ bool operator==(Matrix& ml, Matrix& mr){
 	return true;
 }
 
-Matrix& operator+(Matrix& ml, Matrix& mr){
-	if(ml.GetNumCols() != mr.GetNumCols() || ml.GetNumRows() != mr.GetNumRows()){
+Matrixll; operator+(const Matrix& ml,const Matrix& mr){
+	if(ml.GetNumColumns() != mr.GetNumColumns() || ml.GetNumRows() != mr.GetNumRows()){
 		throw invalid_argument("invalid argument");
 	}
 	
-	Matrix rm(ml.GetNumRows(), ml.GetNumCols());
+	Matrix rm(ml.GetNumRows(), ml.GetNumColumns());
 
 	for(int i=0; i<ml.GetNumRows(); i++) {
-	    for(int j=0; j<ml.GetNumCols(); j++) {
+	    for(int j=0; j<ml.GetNumColumns(); j++) {
 	        rm.At(i, j) = ml.At(i, j) + mr.At(i, j);
 	    }
 	}
 	return rm;
 }
 
+
+
+
 int main() {
   Matrix one;
   Matrix two;
-  cin >> one;
-  cout << endl;
-  cin >> two;
-  if(one == two){
-  	cout << "true" << endl;
-  } else {
-  	cout << "false" << endl;
+
+  try {
+  	cin >> one >> two;
   }
-  cout << one + two << endl;
+  catch(const std::exception& e) {
+  	std::cerr << e.what() << '\n';
+  }
+
+  try {
+  	cout << one + two << endl;
+  }
+  catch(const std::exception& e) {
+  	std::cerr << e.what() << '\n';
+  }
   return 0;
 }
