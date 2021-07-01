@@ -1,158 +1,133 @@
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <stdexcept>
-
+#include <vector>
 
 using namespace std;
 
-class Matrix
-{
-public:
-	Matrix(){
-		m.clear();
-	};
-
-	Matrix(int num_rows, int num_cols){
-		m.clear();
-		vector<int> tmp;
-		if (num_rows < 0 || num_cols < 0){
-			throw out_of_range("out of range");
-		}
-		while(num_cols-- > 0) {
-		    tmp.push_back(0);
-		}
-		while(num_rows-- > 0) {
-		    m.push_back(tmp);
-		}
-	};
-
-	void Reset(int num_rows, int num_cols){
-		m.clear();
-		vector<int> tmp;
-		if (num_rows < 0 || num_cols < 0){
-			throw out_of_range("out of range");
-		}
-		while(num_cols--) {
-		    tmp.push_back(0);
-		}
-		while(num_rows--) {
-		    m.push_back(tmp);
-		}
-	};
-
-	int At(int row, int col) const {
-		if (row > m.size()-1 || col > m[0].size()-1){
-			throw out_of_range("out of range");
-		}
-		return m[row][col];
-	};
-
-	int& At(int row, int col){
-		if (row > m.size()-1 || col > m[0].size()-1){
-			throw out_of_range("out of range");
-		}
-		return m[row][col];
-	};
-
-	int GetNumRows() const {
-		return m.size();
-	};
-
-	int GetNumColumns() const {
-		return m[0].size();
-	};
-
-
-	//~Matrix();
-	
+class Matrix {
 private:
-	// vector<int> row;
-	vector<vector<int>> m;
+  int num_rows_;
+  int num_columns_;
+
+  vector<vector<int>> elements_;
+
+public:
+  Matrix() {
+    num_rows_ = 0;
+    num_columns_ = 0;
+  }
+
+  Matrix(int num_rows, int num_columns) {
+    Reset(num_rows, num_columns);
+  }
+
+  void Reset(int num_rows, int num_columns) {
+    if (num_rows < 0) {
+      throw out_of_range("num_rows must be >= 0");
+    }
+    if (num_columns < 0) {
+      throw out_of_range("num_columns must be >= 0");
+    }
+    if (num_rows == 0 || num_columns == 0) {
+      num_rows = num_columns = 0;
+    }
+
+    num_rows_ = num_rows;
+    num_columns_ = num_columns;
+    elements_.assign(num_rows, vector<int>(num_columns));
+  }
+
+  int& At(int row, int column) {
+    return elements_.at(row).at(column);
+  }
+
+  int At(int row, int column) const {
+    return elements_.at(row).at(column);
+  }
+
+  int GetNumRows() const {
+    return num_rows_;
+  }
+
+  int GetNumColumns() const {
+    return num_columns_;
+  }
 };
 
+bool operator==(const Matrix& one, const Matrix& two) {
+  if (one.GetNumRows() != two.GetNumRows()) {
+    return false;
+  }
 
-ostream& operator<<(ostream& stream, Matrix& matrix){
-	int r, c;
-	r = matrix.GetNumRows();
-	c = matrix.GetNumColumns();
-	stream << r << " " << c << endl;
-	if (r == 0 || c == 0){
-		return stream;
-	}
-	for(int i = 0; i < r; i++){
-		for(int j = 0; j < c; j++){
-			stream << matrix.At(i, j) << ' ';
-		}
-		stream << endl;
-	}
-    return stream;
+  if (one.GetNumColumns() != two.GetNumColumns()) {
+    return false;
+  }
+
+  for (int row = 0; row < one.GetNumRows(); ++row) {
+    for (int column = 0; column < one.GetNumColumns(); ++column) {
+      if (one.At(row, column) != two.At(row, column)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
-istream& operator>>(istream& stream, Matrix& matrix){
-	int r, c;
-	stream >> r >> c;
-	matrix.Reset(r, c);
-	if (r == 0 || c == 0){
-		return stream;
-	}
-	for(int i = 0; i < r; i++) {
-		for(int j = 0; j < c; j++) {
-	        stream >> matrix.At(i, j);
-	    }
-	}
-	return stream;
+Matrix operator+(const Matrix& one, const Matrix& two) {
+  if (one.GetNumRows() != two.GetNumRows()) {
+    throw invalid_argument("Mismatched number of rows");
+  }
+
+  if (one.GetNumColumns() != two.GetNumColumns()) {
+    throw invalid_argument("Mismatched number of columns");
+  }
+
+  Matrix result(one.GetNumRows(), one.GetNumColumns());
+  for (int row = 0; row < result.GetNumRows(); ++row) {
+    for (int column = 0; column < result.GetNumColumns(); ++column) {
+      result.At(row, column) = one.At(row, column) + two.At(row, column);
+    }
+  }
+
+  return result;
 }
 
-bool operator==(Matrix& ml, Matrix& mr){
-	if(ml.GetNumColumns() != mr.GetNumColumns()){return false;}
-	if(ml.GetNumRows() != mr.GetNumRows()){return false;}
-	if (ml.GetNumColumns() != 0 && ml.GetNumRows() != 0){
-		for(int i=0; i<ml.GetNumRows(); i++) {
-		    for(int j=0; j<ml.GetNumColumns(); j++) {
-		        if(ml.At(i, j) != mr.At(i, j)){
-		        	return false;
-		        }
-		    }
-		}
-	}
-	return true;
+istream& operator>>(istream& in, Matrix& matrix) {
+  int num_rows, num_columns;
+  in >> num_rows >> num_columns;
+
+  matrix.Reset(num_rows, num_columns);
+  for (int row = 0; row < num_rows; ++row) {
+    for (int column = 0; column < num_columns; ++column) {
+      in >> matrix.At(row, column);
+    }
+  }
+
+  return in;
 }
 
-Matrixll; operator+(const Matrix& ml,const Matrix& mr){
-	if(ml.GetNumColumns() != mr.GetNumColumns() || ml.GetNumRows() != mr.GetNumRows()){
-		throw invalid_argument("invalid argument");
-	}
-	
-	Matrix rm(ml.GetNumRows(), ml.GetNumColumns());
+ostream& operator<<(ostream& out, const Matrix& matrix) {
+  out << matrix.GetNumRows() << " " << matrix.GetNumColumns() << endl;
+  for (int row = 0; row < matrix.GetNumRows(); ++row) {
+    for (int column = 0; column < matrix.GetNumColumns(); ++column) {
+      if (column > 0) {
+        out << " ";
+      }
+      out << matrix.At(row, column);
+    }
+    out << endl;
+  }
 
-	for(int i=0; i<ml.GetNumRows(); i++) {
-	    for(int j=0; j<ml.GetNumColumns(); j++) {
-	        rm.At(i, j) = ml.At(i, j) + mr.At(i, j);
-	    }
-	}
-	return rm;
+  return out;
 }
-
-
-
 
 int main() {
   Matrix one;
   Matrix two;
 
-  try {
-  	cin >> one >> two;
-  }
-  catch(const std::exception& e) {
-  	std::cerr << e.what() << '\n';
-  }
-
-  try {
-  	cout << one + two << endl;
-  }
-  catch(const std::exception& e) {
-  	std::cerr << e.what() << '\n';
-  }
+  cin >> one >> two;
+  cout << one + two << endl;
   return 0;
 }
