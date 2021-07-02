@@ -1,0 +1,52 @@
+Warning, long feedback: only the beginning and the end of the feedback message is shown, and the middle was replaced by " ... ". Compile error: b"/tmp/submission9mplsoft/tmpq_lp0l_e.cpp:168:36: fatal error: invalid operands to binary expression ('const Matrix' and 'const Matrix')
+      std::declval<const Matrix>() == std::declval<const Matrix>()
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/system_error:342:3: note: candidate function not viable: no known conversion from 'const Matrix' to 'const std::error_code' for 1st argument
+  operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+  ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/system_error:349:3: note: candidate function not viable: no known conversion from 'const Matrix' to 'const std::error_code' for 1st argument
+  operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+  ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/system_error:357:3: note: candidate function not viable: no known conversion from 'const Matrix' to 'const std::error_condition' for 1st argument
+  operator==(const error_condition& __lhs,
+  ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/system_error:390:3: note: candidate function not viable: no known conversion from 'const Matrix' to 'const std::error_condition' for 1st argument
+  operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+  ^
+/tmp/submission9mplsoft/tmpq_lp0l_e.cpp:107:6: note: candidate function not viable: 1st argument ('const Matrix') would lose const qualifier
+bool operator==(Matrix& ml, Matrix& mr){
+     ^
+	/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/postypes.h:222:5: note: candidate template ignored: could not match 'fpos<type-parameter-0-0>' against 'const Matrix'
+    operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:466:5: note: candidate template ignored: could not match 'pair<type-parameter-0-0, type-parameter-0-1>' against 'const Matrix'
+    operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_iterator.h:360:5: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'const Matrix'
+    operator==(const reverse_iterator<_Iterator> ... t match 'optional<type-parameter-0-0>' against 'const Matrix'
+    operator==(nullopt_t, const optional<_Tp>& __rhs) noexcept\
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/optional:1113:5: note: candidate template ignored: could not match 'optional<type-parameter-0-0>' against 'const Matrix'
+    operator==(const optional<_Tp>& __lhs, const _Up& __rhs)
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/optional:1119:5: note: candidate template ignored: could not match 'optional<type-parameter-0-0>' against 'const Matrix'
+    operator==(const _Up& __lhs, const optional<_Tp>& __rhs)
+    ^
+    /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/array:253:5: note: candidate template ignored: could not match 'array<type-parameter-0-0, _Nm>' against 'const Matrix'
+    operator==(const array<_Tp, _Nm>& __one, const array<_Tp, _Nm>& __two)
+    ^
+    /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/tuple:1393:5: note: candidate template ignored: could not match 'tuple<type-parameter-0-0...>' against 'const Matrix'    operator==(const tuple<_TElements...>& __t,
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_map.h:1463:5: note: candidate template ignored: could not match 'map<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2, type-parameter-0-3>' against 'const Matrix'
+    operator==(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_multimap.h:1128:5: note: candidate template ignored: could not match 'multimap<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2, type-parameter-0-3>' against 'const Matrix'
+    operator==(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_set.h:985:5: note: candidate template ignored: could not match 'set<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'const Matrix'
+    operator==(const set<_Key, _Compare, _Alloc>& __x,
+    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_multiset.h:971:5: note: candidate template ignored: could not match 'multiset<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'const Matrix'
+    operator==(const multiset<_Key, _Compare, _Alloc>& __x,
+    ^
+1 error generated."
