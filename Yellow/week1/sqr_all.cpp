@@ -6,9 +6,9 @@
 using namespace std;
 
 template<typename F, typename S> pair<F, S> operator* (pair<F, S> p1, pair<F, S> p2);
-template<typename I> vector<I> operator* (std::vector<I> v1, std::vector<I> v2);
-template<typename K, typename V> map<K, V> operator* (std::map<K, V> m1, std::map<K, V> m2);
 template<typename T> T Sqr(const T& x);
+template<typename T> vector<T> Sqr(const vector<T>& v);
+template<typename Tfirst, typename Tsecond> map<Tfirst, Tsecond> Sqr(const map<Tfirst, Tsecond>& m);
 
 
 template<typename F, typename S>
@@ -16,11 +16,25 @@ pair<F, S> operator* (pair<F, S> p1, pair<F, S> p2){
 	return pair<F, S> {p1.first * p2.first, p1.second * p2.second};
 };
 
-template<typename I> vector<I>
-vector<I> operator* (std::vector<I> v1, std::vector<I> v2){};
 
-template<typename K, typename V>
-map<K, V> operator* (std::map<K, V> m1, std::map<K, V> m2);
+template<typename T>
+vector<T> Sqr(const vector<T>& v){
+	vector<T> r;
+	for(const T& i : v){
+		r.push_back(Sqr(i));
+	}
+	return r;
+}
+
+template<typename Tfirst, typename Tsecond>
+map<Tfirst, Tsecond> Sqr(const map<Tfirst, Tsecond>& m){
+	map<Tfirst, Tsecond> r;
+	for(const auto& i : m){
+		r[i.first] = Sqr(i.second);
+	}
+	return r;
+}
+
 template <typename T>
 T Sqr(const T& x){
 	return x * x;
