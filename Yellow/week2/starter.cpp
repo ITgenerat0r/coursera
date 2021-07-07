@@ -56,6 +56,14 @@ struct BusesForStopResponse {
 
 ostream& operator << (ostream& os, const BusesForStopResponse& r) {
   // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ
+  if(r.buses.empty()){
+    os << "No stop" << endl;
+  } else {
+    for(const string& bus : r.buses){
+      os << bus << " ";
+    }
+    os << endl;
+  }
   return os;
 }
 
@@ -69,6 +77,23 @@ struct StopsForBusResponse {
 
 ostream& operator << (ostream& os, const StopsForBusResponse& r) {
   // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ
+  if(r.stops_v.empty()){
+    os << "No bus" << endl;
+  } else {
+    for(const string& stop : r.stops_v){
+      os << "Stop " << stop << ": ";
+      if (r.stops_m.at(stop).size() == 1) {
+        os << "no interchange" << endl;
+      } else {
+        for (const string& other_bus : r.stops_m.at(stop)) {
+          if (r.bus != other_bus) {
+            os << other_bus << " ";
+          }
+        }
+        os << endl;
+      }
+    }
+  }
   return os;
 }
 
@@ -79,6 +104,17 @@ struct AllBusesResponse {
 
 ostream& operator << (ostream& os, const AllBusesResponse& r) {
   // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ
+  if (r.buses.empty()) {
+    os << "No buses" << endl;
+  } else {
+    for (const auto& bus_item : r.buses) {
+      os << "Bus " << bus_item.first << ": ";
+      for (const string& stop : bus_item.second) {
+        os << stop << " ";
+      }
+      os << endl;
+    }
+  }
   return os;
 }
 
@@ -96,7 +132,11 @@ public:
     // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚РѕС‚ РјРµС‚РѕРґ
     BusesForStopResponse r;
     r.stop = stop;
-    r.buses = stops_to_buses.at(stop);
+    if(stops_to_buses.count(stop)){
+      r.buses = stops_to_buses.at(stop);
+    } else {
+      r.buses = {};
+    }
     return r;
   }
 
@@ -104,9 +144,14 @@ public:
     // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚РѕС‚ РјРµС‚РѕРґ
     StopsForBusResponse r;
     r.bus = bus;
-    for(const string& stop : buses_to_stops.at(bus)){
-      r.stops_v.push_back(stop);
-      r.stops_m[stop] = stops_to_buses.at(stop);
+    if(buses_to_stops.count(bus)){
+      for(const string& stop : buses_to_stops.at(bus)){
+        r.stops_v.push_back(stop);
+        r.stops_m[stop] = stops_to_buses.at(stop);
+      }
+    } else {
+      r.stops_v = {};
+      r.stops_m = {};
     }
     return r;
   }
