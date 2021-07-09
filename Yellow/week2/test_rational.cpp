@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+// #include <algorithm>
 
 using namespace std;
 
@@ -93,25 +94,100 @@ private:
   int fail_count = 0;
 };
 
-class Rational {
-public:
-  // Р’С‹ РјРѕР¶РµС‚Рµ РІСЃС‚Р°РІР»СЏС‚СЊ СЃСЋРґР° СЂР°Р·Р»РёС‡РЅС‹Рµ СЂРµР°Р»РёР·Р°С†РёРё,
-  // С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РІР°С€Рё С‚РµСЃС‚С‹ РїСЂРѕРїСѓСЃРєР°СЋС‚ РєРѕСЂСЂРµРєС‚РЅС‹Р№ РєРѕРґ
-  // Рё Р»РѕРІСЏС‚ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Р№
+// class Rational {
+// public:
+//   // Р’С‹ РјРѕР¶РµС‚Рµ РІСЃС‚Р°РІР»СЏС‚СЊ СЃСЋРґР° СЂР°Р·Р»РёС‡РЅС‹Рµ СЂРµР°Р»РёР·Р°С†РёРё,
+//   // С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РІР°С€Рё С‚РµСЃС‚С‹ РїСЂРѕРїСѓСЃРєР°СЋС‚ РєРѕСЂСЂРµРєС‚РЅС‹Р№ РєРѕРґ
+//   // Рё Р»РѕРІСЏС‚ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Р№
 
-  Rational();
-  Rational(int numerator, int denominator) {
-  }
+//   Rational();
+//   Rational(int numerator, int denominator) {
+//   }
 
-  int Numerator() const {
-  }
+//   int Numerator() const {
+//   }
 
-  int Denominator() const {
-  }
-};
+//   int Denominator() const {
+//   }
+// };
+
+// class Rational {
+// public:
+//   // Rational();
+//   Rational(int numerator = 0, int denominator = 1){
+//     if(denominator == 0){
+//         throw invalid_argument("");
+//     }
+//     p = numerator;
+//     q = denominator;
+//     Check();
+//   };
+
+//   int Numerator() const{
+//     return p;
+//   };
+//   int Denominator() const{
+//     return q;
+//   };
+
+//   void setNumerator(int value){
+//     p = value;
+//   };
+//   void setDenominator(int value){
+//     q = value;
+//   };
+
+//   void Check(){
+//     if(q<0){
+//         p *= -1;
+//         q *= -1;
+//     }
+//     if (p == 0){
+//         q = 1;
+//     } else {
+//         int tmp = abs(__gcd(p, q));
+//         p /= tmp;
+//         q /= tmp;
+//     }
+//   }
+
+// private:
+//   int p;
+//   int q;
+// };
+
+
+
+void Test1(){
+  Rational r;
+  AssertEqual(r.Numerator(), 0, "test 1");
+  AssertEqual(r.Denominator(), 1, "test 2");
+  Rational r2(-2,-4);
+  AssertEqual(r2.Numerator(), 1, "test 3");
+  AssertEqual(r2.Denominator(), 2, "test 4");
+  Rational r3(3,-9);
+  AssertEqual(r3.Numerator(), -1, "test 5");
+  AssertEqual(r3.Denominator(), 3, "test 6");
+  Rational r4(-4,9);
+  AssertEqual(r4.Numerator(), -4, "test 7");
+  AssertEqual(r4.Denominator(), 9, "test 8");
+  Rational r5(5, 6);
+  AssertEqual(r5.Numerator(), 5, "test 7");
+  AssertEqual(r5.Denominator(), 6, "test 8");
+}
+
+void Test2(){
+  Rational r(0, 7 );
+  AssertEqual(r.Numerator(), 0, "test 1");
+  AssertEqual(r.Denominator(), 1, "test 2");
+}
+
 
 int main() {
   TestRunner runner;
+  runner.RunTest(Test1, "test");
+  runner.RunTest(Test2, "test2");
+  runner.~TestRunner();
   // РґРѕР±Р°РІСЊС‚Рµ СЃСЋРґР° СЃРІРѕРё С‚РµСЃС‚С‹
   return 0;
 }
