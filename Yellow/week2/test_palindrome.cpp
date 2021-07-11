@@ -103,7 +103,8 @@ bool IsPalindrom(const string& str) {
 void Test_false(){
   vector<string> v = { 
     "asdf", "asasam", "fjjjjjj", "asdhhfdsa", "heroin", "sasa",
-   " asddsa", "asdffdsa ", "h jh", "test tse ", "test", "*/", "m a dam", "Hh"
+   " asddsa", "asdffdsa ", "h jh", "test tse ", "test", "*/", "m a dam", "Hh", "leel*"
+    "_ini"
   };
   for(const auto& i : v){
     Assert(!IsPalindrom(i), i);
@@ -113,7 +114,7 @@ void Test_false(){
 void Test_true(){
   vector<string> v = {
     "ada", " d ", " asa ", "t", " ", "F", "GaG", "metro ana ortem", "", "madam", "-level-", 
-    "wasitacaroracatisaw", "arara", "HereH", ".", ','
+    "wasitacaroracatisaw", "arara", "HereH", ".", ",", " * ", "./../.", "keek", "__"
   };
   for(const auto& i : v){
     Assert(IsPalindrom(i), i);
