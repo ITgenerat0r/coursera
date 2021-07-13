@@ -7,7 +7,7 @@
 int main(){
 	
 	try{
-		PhoneNumber pn("asdf");
+		PhoneNumber pn("+asdf-123-888-123");
 	}catch(const exception& e){
 		cerr << e.what() << endl;
 	}
