@@ -7,7 +7,7 @@ using namespace std;
 
 void PrintVectorPart(const vector<int>& numbers){
 	auto r = find_if(numbers.begin(), numbers.end(), [](const int& n){return n < 0;});
-	for (auto it = negative_it; it != numbers.begin(); ) {
+	for (auto it = r; it != numbers.begin(); ) {
 		cout << *(--it) << " ";
 	}
 }
