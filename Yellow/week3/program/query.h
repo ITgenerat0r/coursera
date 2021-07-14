@@ -1,6 +1,10 @@
 #pragma once
 
-#include <sstream>
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
 
 enum class QueryType {
   NewBus,

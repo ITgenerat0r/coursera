@@ -1,8 +1,12 @@
 #pragma once
 
-#include <sstream>
 
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
 
+using namespace std;
 
 struct BusesForStopResponse {
   vector<string> buses;
