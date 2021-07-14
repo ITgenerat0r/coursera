@@ -7,17 +7,19 @@
 using namespace std;
 
 
+
+
 template <typename T>
-vector<T> FindGreaterElements(const set<T>& elements, const T& border){
-	auto r = find_if(elements.begin(), elements.end(), [&border](const T& n){return n == border;});
-	vector<T> result(0);
-	if (r == end(elements)){
-		return result;
-	}
-	for (auto it = ++r; it != elements.end(); ) {
-		result.push_back(*(it++));
-	}
-	return result;
+vector<T> FindGreaterElements(const set<T>& elements, const T& border) {
+  // Начнём итерироваться по множеству
+  auto it = begin(elements);
+  // Цель — найти первый элемент, больший border
+  // Если итератор не достиг конца и указывает не туда, двигаем
+  while (it != end(elements) && *it <= border) {
+  	++it;
+  }
+  // Возвращаем вектор, созданный из элементов множества, начиная с it
+  return {it, end(elements)};
 }
 
 
@@ -35,12 +37,12 @@ int main() {
 
 
 
-  cout << endl << endl;
-  set<int> s = {1};
-  for (int x : FindGreaterElements(s, 3)) {
-    cout << x << " ";
-  }
-  cout << endl << FindGreaterElements(s, 3).size();
-  cout << endl;
+  // cout << endl << endl;
+  // set<int> s = {1};
+  // for (int x : FindGreaterElements(s, 3)) {
+  //   cout << x << " ";
+  // }
+  // cout << endl << FindGreaterElements(s, 3).size();
+  // cout << endl;
   return 0;
 }
