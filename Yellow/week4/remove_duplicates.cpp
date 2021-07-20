@@ -1,22 +1,46 @@
-#include <set>
+
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
+
+
+#include <string>
+#include <sstream>
+template <typename Collection>
+string Join(const Collection& c, char d) {
+  stringstream ss;
+  bool first = true;
+  for (const auto& i : c) {
+    if (!first) {
+      ss << d;
+    }
+    first = false;
+    ss << i;
+  }
+  return ss.str();
+}
+
+
+template <typename T>
+ostream& operator << (ostream& out, const vector<T>& vi) {
+  return out << '[' << Join(vi, ',') << ']';
+}
 
 
 
 template <typename T>
 void RemoveDuplicates(vector<T>& elements){
-	set<T> h;
-	for(auto it = begin(elements); it != end(elements); it++){
-		if(*(find(begin(elements), it, it)) != *it){
-			// h.insert(it);
-		} else {
-			remove_if(it, end(elements), it);
-		}
-	}
+
+    // cout << " " << elements << endl;
+    sort(begin(elements), end(elements));
+    // cout << " " << elements << endl;
+    elements.erase(std::unique(begin(elements), end(elements)),end(elements));
+    // elements.erase(er, end(elements));
+    // cout << "  "  << elements << endl << endl;
 }
+
 
 
 
