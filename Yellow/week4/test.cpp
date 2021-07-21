@@ -25,19 +25,10 @@ ostream& operator<< (ostream& out, std::vector<T> v){
 
 int main()
 {
-    std::string s = "";
-    std::vector<int> v;
-    int n;
-    cin >> n;
-    for(int i = 1; i <= n; i++){
-      // s += to_string(i);
-      v.push_back(i);
-    }
-    // cout << s << endl;
-    std::sort(v.rbegin(), v.rend());
-    do {
-        std::cout << v << '\n';
-    } while(std::prev_permutation(v.begin(), v.end()));
+    vector<int> v = {0, 1, 2, 3, 4, 5};
+    auto it = partition(begin(v), end(v), [](const int c){return c % 2 == 0;});
+    cout << v << endl;
+    cout << *it << endl;
 }
 
 
