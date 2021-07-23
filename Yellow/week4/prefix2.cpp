@@ -14,42 +14,64 @@ using namespace std;
 
 
 
-// template <typename RandomIt>
-// pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end, const string& prefix){
-// 	RandomIt it_begin, it_end;
-// 	string p = prefix;
+bool testL(const string& s, const string& prefix){
+	cout << "testL\n";
+	for(int i = 0; i < prefix.size(); i++){
+			cout << " - " << prefix[i] << " " << s[i] << endl;
+			if(s[i] < prefix[i]) {
+				cout << "false" << endl;
+				return false;
+			}
+		}
+		cout << "true" << endl;
+		return true;
+}
 
-// 	it_begin = lower_bound(range_begin, range_end, prefix);
 
-// 	// it_end = lower_bound(it_begin, range_end, ++prefix);
-// 	p[p.size()-1]++;
-// 	it_end = lower_bound(range_begin, range_end, p);
-
-	
-// 	if (it_end == range_end){
-// 		it_end = it_begin;
-// 	}
-// 	pair<RandomIt, RandomIt> r = make_pair(it_begin, it_end);
-// 	return r;
-// }
-
+bool testU(const string& s, const string& prefix){
+	cout << "testU\n";
+	bool e = false;
+	for(int i = 0; i < prefix.size(); i++){
+			cout << " - " << prefix[i] << " " << s[i] << endl;
+			if(s[i] < prefix[i]) {
+				cout << "false" << endl;
+				return false;
+			} else if(s[i] > prefix[i]){
+				e = true;
+			}
+		}
+		cout << "true" << endl;
+		if (e){
+			return true;
+		}else{
+			return false;
+		}
+}
 
 
 template <typename RandomIt>
 pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end, const string& prefix){
-	RandomIt it;
+	RandomIt it_begin, it_end;
 
-	it = range_end - range_begin;
-	if(*it[0] < prefix){
-		range_begin = it;
-	} else if (*it[0] > prefix){
-		range_end = it;
-	}
+	it_begin = lower_bound(range_begin, range_end, prefix, testL);
 
 
-	pair<RandomIt, RandomIt> r = make_pair(range_begin, range_end);
+	it_end = lower_bound(range_begin, range_end, prefix, testU);
+
+	// it_end = find_if(range_begin, range_end, [prefix](string s){
+	// 	for(int i = 0; i <= prefix.size(); i++){
+	// 		if(prefix[i] != s[i]) {return false;}
+	// 	}
+	// 	return true;
+	// });
+
+
+	pair<RandomIt, RandomIt> r = make_pair(it_begin, it_end);
+
+	cout << "   Info " << *r.first << " " << *r.second << endl;
 	return r;
 }
+
 
 
     

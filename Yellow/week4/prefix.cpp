@@ -14,21 +14,39 @@ using namespace std;
 
 template <typename RandomIt>
 pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end, char prefix){
-	RandomIt it_begin, it_end;
-	it_begin = find_if(range_begin, range_end, [prefix](const std::__cxx11::basic_string<char> s){ return s[0]<prefix;});
+	RandomIt it;
+    typename std::iterator_traits<RandomIt>::difference_type count, step;
+    count = std::distance(range_begin, range_end);
+ 
+    while (count > 0) {
+        it = range_begin; 
+        step = count / 2; 
+        std::advance(it, step);
+        string ss = *it;
+        if (ss[0] < prefix) {
+            range_begin = ++it; 
+            count -= step + 1; 
+        }
+        else
+            count = step;
+    }
+    RandomIt first = range_begin;
+    count = std::distance(range_begin, range_end);
+    while (count > 0) {
+        it = range_begin; 
+        step = count / 2; 
+        std::advance(it, step);
+        string ss = *it;
+        if (!(prefix < ss[0])) {
+            range_begin = ++it;
+            count -= step + 1;
+        } 
+        else
+            count = step;
+    }
+    
 
-	// it_end = lower_bound(it_begin, range_end, ++prefix);
-	it_end = find_if(range_begin, range_end, [prefix](const std::__cxx11::basic_string<char> s){ return s[0]<prefix+1;});
-
-	
-
-
-	if (it_end == range_end){
-		it_end = it_begin;
-	}
-	pair<RandomIt, RandomIt> r = make_pair(it_begin, it_end);
-	// r.first = it_begin;
-	// r.second = it_end;
+	pair<RandomIt, RandomIt> r = make_pair(first, range_begin);
 	return r;
 }
 
