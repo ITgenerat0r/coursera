@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 
@@ -10,81 +11,60 @@ using namespace std;
 
 
 
+// bool comp(const string sl, const string sr);
 
 
 
+// bool test(const string s, const string prefix){
+// 	// cerr << "\nTEST\n";
+// 	// cerr << s << " ? " << prefix << endl;
+//   // cerr << "test return " << comp(s, prefix) << endl;
+//   return comp(s, prefix);
+// 	size_t	 dl = min(s.size(), prefix.size());
+// 	for(int i = 0; i < dl; i++){
+// 		// cerr << " - " << s[i] << " " << prefix[i] << endl;
+// 		if(s[i] > prefix[i]) {
+// 			// cerr << "false" << endl << endl;
+// 			return false;
+// 		} else if(s[i] < prefix[i]){
+// 			// cerr << "true" << endl << endl;
+// 			return true;
+// 		}
+// 	}
+// 	// cerr << "true" << endl << endl;
+// 	return true;
+// }
 
-bool test(const string s, const string prefix){
-	cout << "\nTEST\n";
-	cout << s << " ? " << prefix << endl;
-	size_t	 dl = min(s.size(), prefix.size());
-	for(int i = 0; i < dl; i++){
-		cout << " - " << s[i] << " " << prefix[i] << endl;
-		if(s[i] > prefix[i]) {
-			cout << "false" << endl << endl;
-			return false;
-		} else if(s[i] < prefix[i]){
-			cout << "true" << endl << endl;
-			return true;
-		}
-	}
-	cout << "true" << endl << endl;
-	return true;
+bool comp(const string sl, const string sr){
+  int r;
+  size_t   dl = min(sl.size(), sr.size());
+  r = 0;
+  for(int i = 0; i < dl; i++){
+    if(sl[i]<sr[i]){
+      r = -1;
+      break;
+    } else if (sl[i] > sr[i]){
+      r = 1;
+      break;
+    }
+  }
+  if(r == -1){
+    return true;
+  } else {
+    return false;
+  }
 }
+
+
 
 
 template <typename RandomIt>
 pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end, const string& prefix){
-	RandomIt it, tmp;
-	tmp = range_begin;
-    typename std::iterator_traits<RandomIt>::difference_type count, step;
-    count = std::distance(range_begin, range_end);
- 	cout << "Count " << count << endl;
-    while (count > 0) {
-        it = range_begin; 
-        step = count / 2; 
-        std::advance(it, step);
-        if (test(*it, prefix)) {
-            range_begin = ++it; 
-            count -= step + 1; 
-            cout << "<" << count << endl;
-        } 
-        else 
-        {
-        	count = step;
-        	cout << ">=" << count << endl;
-        }
-    }
-    RandomIt first = range_begin;
-    // range_begin = tmp;
-    count = std::distance(range_begin, range_end);
+	
+  RandomIt first, last;
+  first = lower_bound(range_begin, range_end, prefix, comp);
+  last  = upper_bound(range_begin, range_end, prefix, comp);
 
-    cout << "->2\n";
-    cout << count << endl;
-    while (count > 0) {
-        it = range_begin; 
-        step = count / 2; 
-        std::advance(it, step);
-        if (!(test(prefix, *it))) {
-            range_begin = ++it;
-            count -= step + 1;
-        } 
-        else
-            count = step;
-    }
-    RandomIt last = range_begin;
-
-
-
-    // RandomIt first, last;
-
-    // first = upper_bound(range_begin, range_end, prefix, test);
-    // cout << "2222222222222222222222222222222222222222222222222222222222\n";
-    // last = lower_bound(range_begin, range_end, prefix, test);
-
-
-    cout << "count " << distance(first, range_end) << " " << distance(last, range_end) << endl;
-    cout << "	INFO " << *first << " " << *last << endl;
 	pair<RandomIt, RandomIt> r = make_pair(first, last);	
 	return r;
 }
@@ -92,13 +72,20 @@ pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end
 
 
     
-
 int main() {
-  const vector<string> sorted_strings = {"aaa", "minsk", "moscow", "motovilikha", "murmansk"};
-  
 
+  cerr << "TEST " << comp("aa", "aaaa") << endl;
+  cerr << "TEST " << comp("aaaa", "aa") << endl;
+  cerr << "TEST " << comp("a", "eeeee") << endl;
+  cerr << "TEST " << comp("c", "EEEEE") << endl;
+  cerr << "TEST " << comp("h", "H") << endl;
+  cerr << "TEST " << comp("h", "H") << endl;
+
+  const vector<string> sorted_strings = {"a", "b", "c", "d", "e", "h"};
+  
   const auto mo_result =
-      FindStartsWith(begin(sorted_strings), end(sorted_strings), "mo");
+      FindStartsWith(begin(sorted_strings), end(sorted_strings), "EEEEEEEEEE");
+      // cerr << *mo_result.first << " " << *mo_result.second << endl;
   for (auto it = mo_result.first; it != mo_result.second; ++it) {
     cout << *it << " ";
   }
