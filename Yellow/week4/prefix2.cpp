@@ -35,7 +35,7 @@ using namespace std;
 // 	return true;
 // }
 
-bool comp(const string sl, const string sr){
+bool comp(const string& sl, const string& sr){
   int r;
   size_t   dl = min(sl.size(), sr.size());
   r = 0;
@@ -49,6 +49,15 @@ bool comp(const string sl, const string sr){
     }
   }
   if(r == -1){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool comp2(const string& sl, const string& sr){
+  int r = sl.compare(0, sr.size(), sr);
+  if (r<0){
     return true;
   } else {
     return false;
@@ -69,22 +78,28 @@ pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end
 	return r;
 }
 
-
+void test(const string& sl, const string& sr){
+  cerr << "TEST " << sl << " < " << sr << "     " << comp(sl, sr) << "   " << comp2(sl, sr) << endl;
+}
 
     
 int main() {
 
-  cerr << "TEST " << comp("aa", "aaaa") << endl;
-  cerr << "TEST " << comp("aaaa", "aa") << endl;
-  cerr << "TEST " << comp("a", "eeeee") << endl;
-  cerr << "TEST " << comp("c", "EEEEE") << endl;
-  cerr << "TEST " << comp("h", "H") << endl;
-  cerr << "TEST " << comp("h", "H") << endl;
+  test("aa", "aaaa");
+  test("aaaa", "aa");
+  test("a", "eeeee");
+  test("tt", "b");
+  test("c", "EEEEE");
+  test("h", "H");
+  test("H", "h");
+  test("asdf", "fdsa");
 
-  const vector<string> sorted_strings = {"a", "b", "c", "d", "e", "h"};
+
+  // const vector<string> sorted_strings = {"a", "b", "c", "d", "e", "h"};
+  const vector<string> sorted_strings = {"moscow", "motovilikha", "murmansk"};
   
   const auto mo_result =
-      FindStartsWith(begin(sorted_strings), end(sorted_strings), "EEEEEEEEEE");
+      FindStartsWith(begin(sorted_strings), end(sorted_strings), "mo");
       // cerr << *mo_result.first << " " << *mo_result.second << endl;
   for (auto it = mo_result.first; it != mo_result.second; ++it) {
     cout << *it << " ";
