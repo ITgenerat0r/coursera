@@ -8,6 +8,8 @@
 using namespace std;
 
 
+
+
 struct Date
 {
 	int year;
@@ -22,6 +24,17 @@ int ToInt(string s){
 	return r;
 }
 
+
+
+istream& operator>> (istream& in, Date& date);
+bool operator<= (const Date& dl, const Date& dr);
+bool operator< (const Date& dl, const Date& dr);
+int operator- (const Date& d1, const Date& d2);
+void operator+= (Date& d, int a);
+
+
+	
+
 istream& operator>> (istream& in, Date& date){
 	string ex;
 	in >> ex;
@@ -34,6 +47,13 @@ istream& operator>> (istream& in, Date& date){
 	getline(ss, tmp, '-');
 	date.day = ToInt(tmp);
 	return in;
+}
+
+ostream& operator<< (ostream& out, const Date& date){
+	out << date.year << "-";
+	out << date.month << "-";
+	out << date.day << endl;
+	return out;
 }
 
 bool operator<= (const Date& dl, const Date& dr){
@@ -56,7 +76,35 @@ bool operator< (const Date& dl, const Date& dr){
 	}
 }
 
+int operator- (const Date& d1, const Date& d2){
+	Date dl = d1;
+	Date dr = d2;
+	int k = 0;
+	if(dl < dr){
+		k = -1;
+		while(dl < dr){
+			k--;
+			dl+=1;
+		}
+	} else {
+		k = 1;
+		while(dr < dl){
+			k++;
+			dr+=1;
+		}
+	}
+	return k;
 
+}
+
+void PrintMap(map<Date, int>& a){
+	cout << " map\n";
+	for(const auto& [k, x] : a){
+		// cout << " " << x;
+		cout << k << " = " << x << endl;
+	}
+	cout << endl;
+}
 
 
 void operator+= (Date& d, int a){
@@ -111,15 +159,28 @@ int main(){
 		Date date_from, date_to;
 		cin >> date_from >> date_to;
 		if(command == "ComputeIncome"){
-			cout << "ComputeIncome\n";
-			cout << accumulate(begin(base), end(base));
+			int s = 0;
+			for(Date d = date_from; d <= date_to; d+=1){
+				if(base.count(d)){
+					s += base.at(d);
+				}
+			}
+			cout << s << endl;
+			// PrintMap(base);
+			// cout << accumulate(begin(base), end(base), s);
 		}else if(command == "Earn"){
-			cout << "Earn\n";
 			int value;
 			cin >> value;
+			value /= date_to - date_from;
+			// cout << value << endl;
 			for(Date d = date_from; d <= date_to; d+=1){
-				base[d] = value;
+				if(base.count(d)){
+					base[d] += value;
+				}else{
+					base[d] = value;
+				}
 			}
+			// PrintMap(base);
 
 		}
 	}
