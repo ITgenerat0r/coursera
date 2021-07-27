@@ -9,9 +9,14 @@ using namespace std;
 
 class Person {
 public:
-    Person(const string& name, const string& status) : Name(name), Status(stauts) {}
-    virtual void Walk(string destination) const = 0;
-protected:
+    Person(const string& name, const string status) : Name(name), Status(status) {}
+    virtual void Walk(const string& destination) const = 0;
+    virtual void SingSong() const {};
+    virtual void Learn() const {};
+    virtual void Check(const shared_ptr<Person> person) const {};
+    virtual void Teach() const {};
+
+// protected:
     const string Name;
     const string Status;
 };
@@ -20,18 +25,18 @@ protected:
 class Student : public Person {
 public:
 
-    Student(string name, string favouriteSong) : Person(name, "Student"), FavouriteSong(favouriteSong) {}
+    Student(const string name, const string favouriteSong) : Person(name, "Student"), FavouriteSong(favouriteSong) {}
 
-    void Learn() {
+    void Learn() const {
         cout << "Student: " << Name << " learns" << endl;
     }
 
-    void Walk(string destination) {
+    void Walk(const string& destination) const override {
         cout << "Student: " << Name << " walks to: " << destination << endl;
         cout << "Student: " << Name << " sings a song: " << FavouriteSong << endl;
     }
 
-    void SingSong() {
+    void SingSong() const {
         cout << "Student: " << Name << " sings a song: " << FavouriteSong << endl;
     }
 
@@ -43,13 +48,13 @@ private:
 class Teacher : public Person {
 public:
 
-    Teacher(string name, string subject) : Person(name, "Teacher"), Subject(subject) {}
+    Teacher(const string name, const string subject) : Person(name, "Teacher"), Subject(subject) {}
 
-    void Teach() {
+    void Teach() const {
         cout << "Teacher: " << Name << " teaches: " << Subject << endl;
     }
 
-    void Walk(string destination) {
+    void Walk(const string& destination) const override {
         cout << "Teacher: " << Name << " walks to: " << destination << endl;
     }
 
@@ -60,13 +65,13 @@ private:
 
 class Policeman : public Person {
 public:
-    Policeman(string name) : Person(name, "Policeman") {}
+    Policeman(const string name) : Person(name, "Policeman") {}
 
-    void Check(shared_ptr<Person> person) {
-        cout << "Policeman: " << Name << "checks " << person.Staus << ". " << person.Status << "'s name is: " << person.Name << endl;
+    void Check(const shared_ptr<Person> person) const {
+        cout << "Policeman: " << Name << "checks " << person->Status << ". " << person->Status << "'s name is: " << person->Name << endl;
     }
 
-    void Walk(string destination) {
+    void Walk(const string& destination) const override {
         cout << "Policeman: " << Name << " walks to: " << destination << endl;
     }
 
@@ -75,17 +80,17 @@ public:
 
 void VisitPlaces(shared_ptr<Person> person, vector<string> places) {
     for (auto place : places) {
-        person.Walk(place);
+        person->Walk(place);
     }
 }
 
 int main() {
-    shared_ptr<Teacher> t = make_shared("Jim", "Math");
-    shared_ptr<Student> s = make_shared("Ann", "We will rock you");
-    shared_ptr<Policeman> p = make_shared("Bob");
+    shared_ptr<Person> t = make_shared<Teacher>("Jim", "Math");
+    shared_ptr<Person> s = make_shared<Student>("Ann", "We will rock you");
+    shared_ptr<Person> p = make_shared<Policeman>("Bob");
 
     VisitPlaces(t, {"Moscow", "London"});
-    p.Check(s);
+    p->Check(s);
     VisitPlaces(s, {"Moscow", "London"});
     return 0;
 }
