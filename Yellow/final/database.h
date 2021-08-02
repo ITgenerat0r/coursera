@@ -1,13 +1,17 @@
 #pragma once
 
+#include <string>
+#include <map>
+#include <set>
 
+#include "date.h"
 
 
 class Database {
 public:
-	void AddEvent(const Date& date, const string& event);
+	void AddEvent(const Date& date, const std::string& event);
 	
-	bool DeleteEvent(const Date& date, const string& event);
+	bool DeleteEvent(const Date& date, const std::string& event);
 	
 	int  DeleteDate(const Date& date);
 
@@ -16,5 +20,5 @@ public:
 	void Print() const;
 
 private:
-	map<Date, set<string>> base;
+	std::map<Date, std::set<std::string>> base;
 };

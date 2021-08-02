@@ -1,7 +1,9 @@
 
-
-
 #include "database.h"
+
+#include <iostream>
+
+using namespace std;
 
 
 	void Database::AddEvent(const Date& date, const string& event){

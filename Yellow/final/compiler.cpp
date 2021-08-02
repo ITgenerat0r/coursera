@@ -19,12 +19,14 @@ int main(int argc, char *argv[]){
     	std::getline(ss, filename, '.');
 	    
 	    if(command == "-out"){
-	    	std::string cmd = "g++ -std=c++20 -o " + filename + ".o " + filename + ".cpp";
+	    	std::string cmd = "g++ -std=c++20 -c " + filename + ".cpp";
 	    	std::system("clear");
 	    	std::cout << cmd << std::endl;
 	    	const char *test = cmd.c_str();
 	    	std::system(test);
-	    } else if (command == "-build"){}
+	    } else if (command == "-build"){
+	    	std::cout << "It's didn't developed yet!\n";
+	    }
     }
 	return 0;
 }
