@@ -1,6 +1,13 @@
 
 
 #include "date.h"
+#include <sstream>
+#include <iomanip>
+
+
+using namespace std;
+
+
 
 	Date::Date(){};
 	Date::Date(int new_year, int new_month, int new_day){
