@@ -5,7 +5,6 @@
 #include <set>
 #include <iomanip>
 #include <algorithm>
-#include <fstream>
 
 
 using namespace std;
@@ -167,35 +166,6 @@ public:
 		}
 	};
 
-	void Save()const{
-		ofstream output("database.mdb");
-		for(const auto& [date, events] : base){
-			for (const string& event : events){
-				output << "Add " << date << " " << event << endl;
-			}
-		}
-	}
-
-	void Load(){
-		ifstream file("database.mdb");
-		std::string command;
-		while (getline(file, command)) {
-			string cm;
-		    stringstream input(command);
-		    input >> cm;
-		    if (cm == "Add"){
-		    	string dt, ev;
-		    	input >> dt >> ev;
-		    	Date date;
-		    	if (date.setDatefromString(dt)){
-			    	base[date].insert(ev);
-			    } else {
-			    	return;
-			    }
-		    }
-		}
-	}
-
 private:
 	map<Date, set<string>> base;
 };
@@ -209,7 +179,7 @@ private:
 
 int main() {
   Database db;
-  ifstream file("data.dt");
+    
   string command;
   while (getline(cin, command)) {
     // Считайте команды с потока ввода и обработайте каждую
@@ -259,12 +229,6 @@ int main() {
     	// cout << ValidDate(dt) << endl;
     } else if (cm == "Print"){
     	db.Print();
-    	// cout << "Command: " << cm << endl;
-    } else if (cm == "Save"){
-    	db.Save();
-    	// cout << "Command: " << cm << endl;
-    } else if (cm == "Load"){
-    	db.Load();
     	// cout << "Command: " << cm << endl;
     } else if (cm != ""){
     	cout << "Unknown command: " << cm << endl;
