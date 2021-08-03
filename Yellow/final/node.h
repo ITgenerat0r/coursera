@@ -15,7 +15,7 @@ enum class LogicalOperation {
 };
 
 class Node {
-	Evaluate(date, event){}
+	auto Evaluate(const Date& date, const std::string event){}
 };
 
 
@@ -36,10 +36,10 @@ private:
 
 class EventComparisonNode : public Node {
 public:
-	EventComparisonNode(const Comparison& cmp, const string& v) : comparison(cmp), value(v) {}
+	EventComparisonNode(const Comparison& cmp, const std::string& v) : comparison(cmp), value(v) {}
 private:
 	const Comparison comparison;
-	const string value;
+	const std::string value;
 };
 
 
