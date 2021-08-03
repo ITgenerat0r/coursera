@@ -114,3 +114,14 @@ ostream& operator<<(ostream& stream, const Date& date){
     stream << setw(4) << setfill('0') << date.GetYear() << '-' << setw(2) << setfill('0') << date.GetMonth() << '-' << setw(2) << setfill('0') << date.GetDay();
     return stream;
 }
+
+
+
+
+Date ParseDate(std::stringstream& in){
+	Date date;
+	string str_date;
+	getline(in, str_date, ' ');
+	date.setDatefromString(str_date);
+	return date;
+}

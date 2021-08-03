@@ -15,7 +15,7 @@ enum class LogicalOperation {
 };
 
 class Node {
-	
+	Evaluate(date, event){}
 };
 
 

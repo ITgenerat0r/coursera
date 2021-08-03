@@ -31,3 +31,6 @@ bool operator<(const Date& lhs, const Date& rhs);
 
 
 std::ostream& operator<<(std::ostream& stream, const Date& date);
+
+
+Date ParseDate(std::stringstream& in);
