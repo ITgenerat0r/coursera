@@ -78,7 +78,7 @@ public:
 };
 
 
-void VisitPlaces(shared_ptr<Person> person, vector<string> places) {
+void VisitPlaces(shared_ptr<Person> person, const vector<string> places) {
     for (auto place : places) {
         person->Walk(place);
     }
