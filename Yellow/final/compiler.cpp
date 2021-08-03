@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <string>
 #include <sstream>
-#include <fstream>
 
 
 int main(int argc, char *argv[]){
@@ -25,7 +24,12 @@ int main(int argc, char *argv[]){
 	    	const char *test = cmd.c_str();
 	    	std::system(test);
 	    } else if (command == "-build"){
-	    	std::cout << "It's didn't developed yet!\n";
+	    	// std::cout << "It's didn't developed yet!\n";
+	    	std::string cmd = "g++ -std=c++20 -o " + filename + ".exe " + filename + ".cpp";
+	    	std::system("clear");
+	    	std::cout << cmd << std::endl;
+	    	const char *test = cmd.c_str();
+	    	std::system(test);
 	    }
     }
 	return 0;
