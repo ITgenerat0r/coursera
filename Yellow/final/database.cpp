@@ -17,8 +17,8 @@ using namespace std;
 		if(base.count(date) > 0){
 			if(base[date].count(event)){
 				base[date].erase(event);
-				auto it = find(begin(base_vector[date]), end(base_vector[end]), event);
-				base_vector[date].remove(it);
+				auto it = find(begin(base_vector[date]), end(base_vector[date]), event);
+				base_vector[date].erase(it);
 				return true;
 			}
 		}
@@ -52,16 +52,17 @@ using namespace std;
 	};
 
 
-	int Database::RemoveIf(){
+	int Database::RemoveIf(bool b){
 		return 0;
 	};
 
 
 
 	vector<string> Database::FindIf(bool b){
-
+		std::vector<string> v;
+		return v;
 	}
 
 	string Database::Last(Date& date){
-		
+		return "";
 	}

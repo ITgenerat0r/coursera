@@ -26,6 +26,7 @@ class Node {
 
 
 class EmptyNode : public Node {
+	EmptyNode(){}
 	bool Evaluate(const Date& date, const std::string& event);
 };
 
