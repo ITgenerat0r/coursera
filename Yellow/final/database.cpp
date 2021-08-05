@@ -7,13 +7,18 @@ using namespace std;
 
 
 	void Database::Add(const Date& date, const string& event){
-		base[date].insert(event);
+		if(base[date].count(event)){
+			base_vector[date].push_back(event);
+			base[date].insert(event);
+		}
 	};
 	
 	bool Database::DeleteEvent(const Date& date, const string& event){
 		if(base.count(date) > 0){
 			if(base[date].count(event)){
 				base[date].erase(event);
+				auto it = find(begin(base_vector[date]), end(base_vector[end]), event);
+				base_vector[date].remove(it);
 				return true;
 			}
 		}
@@ -24,21 +29,22 @@ using namespace std;
 		if(base.count(date) > 0){
 			int r = base[date].size();
 			base.erase(date);
+			base_vector.erase(date);
 			return r;
 		}
 		return 0;
 	};
 
 	void Database::Find(const Date& date) const {
-		if (base.count(date)){
-			for (const string& ev : base.at(date)){
+		if (base_vector.count(date)){
+			for (const string& ev : base_vector.at(date)){
 				cout << ev << endl;
 			}
 		}
 	};
 	
 	void Database::Print(std::ostream& out) const {
-		for(const auto& [date, events] : base){
+		for(const auto& [date, events] : base_vector){
 			for (const string& event : events){
 				out << date << " " << event << endl;
 			}
