@@ -6,7 +6,7 @@
 using namespace std;
 
 
-	void Database::AddEvent(const Date& date, const string& event){
+	void Database::Add(const Date& date, const string& event){
 		base[date].insert(event);
 	};
 	
@@ -37,10 +37,25 @@ using namespace std;
 		}
 	};
 	
-	void Database::Print() const {
+	void Database::Print(std::ostream& out) const {
 		for(const auto& [date, events] : base){
 			for (const string& event : events){
-				cout << date << " " << event << endl;
+				out << date << " " << event << endl;
 			}
 		}
 	};
+
+
+	int Database::RemoveIf(){
+		return 0;
+	};
+
+
+
+	vector<string> Database::FindIf(bool b){
+
+	}
+
+	string Database::Last(Date& date){
+		
+	}

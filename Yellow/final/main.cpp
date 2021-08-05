@@ -11,6 +11,9 @@ using namespace std;
 
 string ParseEvent(istream& is) {
   // Р РµР°Р»РёР·СѓР№С‚Рµ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ
+  string res;
+  getline(is, res, '"');
+  return res;
 }
 
 void TestAll();
