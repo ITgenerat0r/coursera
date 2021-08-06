@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <functional>
+#include <algorithm>
 
 #include "date.h"
 
@@ -16,11 +18,11 @@ public:
 	
 	int  DeleteDate(const Date& date);
 
-	int RemoveIf(bool b);
+	int RemoveIf(std::function<bool(const Date& date, const std::string& event)> predicate);
 
-	std::vector<std::string> FindIf(bool b);
+	std::vector<std::string> FindIf(std::function<bool(const Date& date, const std::string& event)> predicate);
 
-	std::string Last(Date& date);
+	std::pair<Date, std::string> Last(const Date date);
 
 	void Find(const Date& date) const;
 	

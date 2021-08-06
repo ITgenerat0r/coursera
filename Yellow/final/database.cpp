@@ -52,17 +52,67 @@ using namespace std;
 	};
 
 
-	int Database::RemoveIf(bool b){
-		return 0;
+	int Database::RemoveIf(function<bool(const Date& date, const string& event)> predicate) {
+		auto count = 0;
+		for (auto storageIt = base_vector.begin(); storageIt != base_vector.end();) {
+			auto d = (*storageIt).first;
+			auto beforeSize = (*storageIt).second.size();
+			auto newEnd =
+			stable_partition((*storageIt).second.begin(), (*storageIt).second.end(),
+				[predicate, d](string s) { return !predicate(d, s); });
+
+			(*storageIt).second.erase(newEnd, (*storageIt).second.end());
+		    auto afterSize = (*storageIt).second.size();
+		    count += (beforeSize - afterSize);
+
+		    for (auto setStorageIt = base.begin();
+		    	setStorageIt != base.end();) {
+		    	for (auto it = (*setStorageIt).second.begin();
+		    		it != (*setStorageIt).second.end();) {
+		    		if (predicate((*setStorageIt).first, *it)) {
+		    			(*setStorageIt).second.erase(it++);
+		    		} else {
+		    			++it;
+		    		}
+		    	}
+
+		    	if ((*setStorageIt).second.empty()) {
+		    		setStorageIt = base.erase(setStorageIt);
+		    	} else {
+		    		++setStorageIt;
+		    	}
+		    }
+
+		    if ((*storageIt).second.empty()) {
+		    	storageIt = base_vector.erase(storageIt);
+		    } else {
+		    	++storageIt;
+		    }
+		}
+		return count;
 	};
 
 
 
-	vector<string> Database::FindIf(bool b){
-		std::vector<string> v;
-		return v;
+	vector<string> Database::FindIf(function<bool(const Date& date, const string& event)> predicate) const {
+		vector<pair<Date, string>> found;
+		for (const auto& pair : base_vector) {
+			auto d = pair.first;
+			vector<string> tmp;
+			copy_if(pair.second.begin(), pair.second.end(), back_inserter(tmp),
+				[predicate, d](string s) { return predicate(d, s); });
+			for (const auto& ev : tmp) {
+				found.push_back({d, ev});
+			}
+		}
+		return found;
 	}
 
-	string Database::Last(Date& date){
-		return "";
+	pair<Date, string> Database::Last(const Date date){
+		if (base_vector.empty() || date < base_vector.begin()->first) {
+			throw invalid_argument("Database is empty or date is too old");
+		} else {
+			auto it = prev(base_vector.upper_bound(date));
+			return {(*it).first, (*it).second.back()};
+		}
 	}
