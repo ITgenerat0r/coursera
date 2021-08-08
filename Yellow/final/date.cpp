@@ -118,7 +118,7 @@ ostream& operator<<(ostream& stream, const Date& date){
 
 
 
-Date ParseDate(std::istringstream& in){
+Date ParseDate(std::istream& in){
 	Date date;
 	string str_date;
 	getline(in, str_date, ' ');
