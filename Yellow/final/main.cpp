@@ -19,7 +19,7 @@ string ParseEvent(istream& is) {
 void TestAll();
 
 int main() {
-  // TestAll();
+  TestAll();
 
   Database db;
 

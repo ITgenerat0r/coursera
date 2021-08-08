@@ -5,6 +5,11 @@
 
 using namespace std;
 
+template <typename First, typename Second>
+ostream& operator << (ostream& out, const pair<First, Second>& p) {
+  return out << '(' << p.first << ',' << p.second << ')';
+}
+
 
 	void Database::Add(const Date& date, const string& event){
 		if(base[date].count(event)){
@@ -94,7 +99,7 @@ using namespace std;
 
 
 
-	vector<string> Database::FindIf(function<bool(const Date& date, const string& event)> predicate) const {
+	vector<pair<Date, string>> Database::FindIf(function<bool(const Date& date, const string& event)> predicate) const {
 		vector<pair<Date, string>> found;
 		for (const auto& pair : base_vector) {
 			auto d = pair.first;

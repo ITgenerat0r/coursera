@@ -9,6 +9,9 @@
 
 #include "date.h"
 
+template <typename First, typename Second>
+std::ostream& operator << (std::ostream& out, const std::pair<First, Second>& p);
+
 
 class Database {
 public:
@@ -20,7 +23,7 @@ public:
 
 	int RemoveIf(std::function<bool(const Date& date, const std::string& event)> predicate);
 
-	std::vector<std::string> FindIf(std::function<bool(const Date& date, const std::string& event)> predicate);
+	std::vector<std::pair<Date, std::string>> FindIf(std::function<bool(const Date& date, const std::string& event)> predicate) const;
 
 	std::pair<Date, std::string> Last(const Date date);
 

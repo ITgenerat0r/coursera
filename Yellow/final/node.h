@@ -32,14 +32,14 @@ private:
 class EmptyNode : public Node {
 public:
 	EmptyNode() : Node("empty") {}
-	bool Evaluate(const Date& date, const std::string& event);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 };
 
 
 class DateComparisonNode : public Node {
 public:
 	DateComparisonNode(const Comparison& cmp, const Date& d) : Node("date"), comparison(cmp), date(d) {}
-	bool Evaluate(const Date& date, const std::string& event);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const Comparison comparison;
 	const Date date;
@@ -49,7 +49,7 @@ private:
 class EventComparisonNode : public Node {
 public:
 	EventComparisonNode(const Comparison& cmp, const std::string& v) : Node("event"), comparison(cmp), value(v) {}
-	bool Evaluate(const Date& date, const std::string& event);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const Comparison comparison;
 	const std::string value;
@@ -63,7 +63,7 @@ public:
 						const std::shared_ptr<Node>& l, 
 						const std::shared_ptr<Node> r) 
 						: Node("logic"), logical_operation(lo), left(l), right(r) {}
-	bool Evaluate(const Date& date, const std::string& event);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const LogicalOperation logical_operation;
 	const std::shared_ptr<Node> left;
